@@ -9,6 +9,7 @@ if __name__ == '__main__':
     parser.add_argument("-d","--debug",action="store_true",help="Prints additional information")
     parser.add_argument("--write2File",action="store_true",help="If Provided data will be written to appropriate calibration files")
     parser.add_argument("--write2CTP7",action="store_true",help="If Provided VREF_ADC and IREF data will be sent to the VFAT3 config files on the CTP7 (implies --write2File)")
+    parser.add_argument("--override",type=str,help="")
     args = parser.parse_args()
 
     # Update the files on the DAQ machine whenever an update on the CTP7 is requested
@@ -27,6 +28,15 @@ if __name__ == '__main__':
 
     while(len(chipIDs) != 24):
         chipIDs.append(0)
+
+    if args.override:
+        import csv
+
+        with open(args.override, 'rb') as csvfile:
+            csvfile.readline()
+            reader = csv.reader(csvfile, delimiter=' ')
+            for row in reader:
+                chipIDs[int(row[0])] = int(row[1])
 
     if args.debug:
         for vfat,vfatID in enumerate(chipIDs):
