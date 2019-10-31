@@ -776,7 +776,7 @@ def testConnectivity(args):
                 if((dict_vfatMask[ohN] >> vfat3CalInfo['vfatN']) & 0x1):
                     continue
 
-                if( not isnan(vfat3CalInfo['iref']) ):
+                if( False and not isnan(vfat3CalInfo['iref']) ):
                     try:
                         vfatBoard.writeVFAT(
                                 vfat3CalInfo['vfatN'],
